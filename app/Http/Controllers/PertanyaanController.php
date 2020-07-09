@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Tag;
+use App\Pertanyaan;
 use Illuminate\Http\Request;
-use App\Http\Requests\Tag\TagCreateRequest;
-use App\Http\Requests\Tag\TagUpdateRequest;
+use App\Http\Requests\Pertanyaan\PertanyaanCreateRequest;
+use App\Http\Requests\Pertanyaan\PertanyaanUpdateRequest;
 
-class TagController extends Controller
+class PertanyaanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,17 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = $ag::all();
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -25,14 +35,25 @@ class TagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TagCreateRequest $request)
+    public function store(PertanyaanCreateRequest $request)
     {
         try {
-            Tag::create($request->all());
-            return redirect()->back()->with(['error' => false, 'message' => 'Create tag success']);
+            Pertanyaan::create($request->all());
+            return redirect()->back()->with(['error' => false, 'message' => 'Create pertanyaan success']);
         } catch(\Exception $e) {
             return redirect()->back()->with(['error' => true, 'message' => $e->getMessage()]);
         }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return Pertanyaan::find($id);
     }
 
     /**
@@ -43,7 +64,7 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        $tag = Tag::find($id);
+        //
     }
 
     /**
@@ -53,12 +74,12 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TagUpdateRequest $request, $id)
+    public function update(PertanyaanUpdateRequest $request, $id)
     {
         try {
-            $tag = Tag::find($id);
-            $tag->update($request->all());
-            return redirect()->back()->with(['error' => false, 'message' => 'Update tag success']);
+            $pertanyaan = Pertanyaan::find($id);
+            $pertanyaan->update($request->all());
+            return redirect()->back()->with(['error' => false, 'message' => 'Update pertanyaan success']);
         } catch(\Exception $e) {
             return redirect()->back()->with(['error' => true, 'message' => $e->getMessage()]);
         }
@@ -73,12 +94,12 @@ class TagController extends Controller
     public function destroy($id)
     {
         try {
-            $tag = Tag::find($id);
-            if($tag->pertanyaan->isEmpty()) {
-                $tag->delete();
-                return redirect()->back()->with(['error' => false, 'message' => 'Delete tag success']);
+            $pertanyaan = Pertanyaan::find($id);
+            if($pertanyaan->jawaban->isEmpty()) {
+                $pertanyaan->delete();
+                return redirect()->back()->with(['error' => false, 'message' => 'Delete pertanyaan success']);
             } else {
-                return redirect()->back()->with(['error' => false, 'message' => 'Tag masih memiliki artikel']);
+                return redirect()->back()->with(['error' => false, 'message' => 'Pertanyaan masih memiliki jawaban']);
             }
         } catch(\Exception $e) {
             return redirect()->back()->with(['error' => true, 'message' => $e->getMessage()]);
