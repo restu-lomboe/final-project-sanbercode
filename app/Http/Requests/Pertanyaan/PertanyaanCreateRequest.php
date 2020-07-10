@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Pertanyaan;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PertanyaanCreateRequest extends FormRequest
@@ -25,8 +26,7 @@ class PertanyaanCreateRequest extends FormRequest
     {
         return [
             'judul' => 'required',
-            'isi' => 'required',
-            'user_id' => 'required'
+            'isi' => 'required'
         ];
     }
 

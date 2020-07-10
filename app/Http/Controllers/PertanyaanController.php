@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Tag;
 use App\Pertanyaan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Http\Requests\Pertanyaan\PertanyaanCreateRequest;
 use App\Http\Requests\Pertanyaan\PertanyaanUpdateRequest;
 
@@ -16,7 +18,11 @@ class PertanyaanController extends Controller
      */
     public function index()
     {
-        //
+        $pertanyaan= Pertanyaan::paginate(10);
+        // foreach ($pertanyaan as $value) {
+        //     dd(Carbon::parse($value->created_at)->diffForHumans());
+        // }
+        return view('pages.pertanyaan.index', compact('pertanyaan'));
     }
 
     /**
@@ -26,7 +32,9 @@ class PertanyaanController extends Controller
      */
     public function create()
     {
-        //
+        $pertanyaan = Pertanyaan::orderBy('id', 'desc')->limit(1)->get();
+        $tags = Tag::all();
+        return view('pages.pertanyaan.create', compact('tags', 'pertanyaan'));
     }
 
     /**
@@ -38,10 +46,11 @@ class PertanyaanController extends Controller
     public function store(PertanyaanCreateRequest $request)
     {
         try {
-            Pertanyaan::create($request->all());
-            return redirect()->back()->with(['error' => false, 'message' => 'Create pertanyaan success']);
+            $pertanyaan = Pertanyaan::create($request->all());
+            $pertanyaan->tag()->sync($request->tags);
+            return redirect()->back()->with(['error' => 'false', 'message' => 'Create pertanyaan success']);
         } catch(\Exception $e) {
-            return redirect()->back()->with(['error' => true, 'message' => $e->getMessage()]);
+            return redirect()->back()->with(['error' => 'true', 'message' => $e->getMessage()]);
         }
     }
 
@@ -53,7 +62,9 @@ class PertanyaanController extends Controller
      */
     public function show($id)
     {
-        return Pertanyaan::find($id);
+        $pertanyaan = Pertanyaan::find($id);
+        views($pertanyaan)->record();
+        return view('pages.pertanyaan.show', compact('pertanyaan'));
     }
 
     /**
