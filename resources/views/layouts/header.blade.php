@@ -4,8 +4,8 @@
         right: 40px;
     }
 </style>
-<div class="container">
-    <nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light bg-light">
+    <div class="container">
         <a class="navbar-brand" href=" {{ route('home') }} ">LarahubSanbercode</a>
         <div class="form-inline">
             <form class="">
@@ -15,5 +15,5 @@
               <a href=" {{ route('login') }} " class="btn btn-outline-success my-2 my-sm-0 mr-sm-2" type="submit">Login</a>
               <a href="{{ route('register') }}" class="btn btn-outline-success my-2 my-sm-0" type="submit">Register</a>
         </div>
-    </nav>
-</div>
+    </div>
+</nav>

@@ -11,12 +11,12 @@
 |
 */
 
-Route::get('/', 'Frontend\DashboardController@index')->name('home');
+Route::get('/', 'PertanyaanController@index')->name('home');
 
 Auth::routes();
 
-Route::get('/pertanyaan', 'Frontend\PertanyaanController@index')->name('pertanyaan');
-Route::get('/pertanyaan/detail', 'Frontend\PertanyaanController@detail')->name('pertanyaan.detail');
+//Route::get('/pertanyaan', 'Frontend\PertanyaanController@index')->name('pertanyaan');
+//Route::get('/pertanyaan/detail', 'Frontend\PertanyaanController@detail')->name('pertanyaan.detail');
 
 Route::get('pertanyaan', 'PertanyaanController@index')->name('pertanyaan.index');
 Route::get('pertanyaan/index/{id}', 'PertanyaanController@show')->name('pertanyaan.show');

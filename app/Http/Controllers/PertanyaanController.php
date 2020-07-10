@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Requests\Pertanyaan\PertanyaanCreateRequest;
 use App\Http\Requests\Pertanyaan\PertanyaanUpdateRequest;
+use Illuminate\Support\Facades\DB;
 
 class PertanyaanController extends Controller
 {
@@ -19,9 +20,6 @@ class PertanyaanController extends Controller
     public function index()
     {
         $pertanyaan= Pertanyaan::paginate(10);
-        // foreach ($pertanyaan as $value) {
-        //     dd(Carbon::parse($value->created_at)->diffForHumans());
-        // }
         return view('pages.pertanyaan.index', compact('pertanyaan'));
     }
 
@@ -63,8 +61,21 @@ class PertanyaanController extends Controller
     public function show($id)
     {
         $pertanyaan = Pertanyaan::find($id);
+        $tag_id = [];
+        foreach ($pertanyaan->tag as $value) {
+            $tag_id[] = $value->id;
+        }
+        $like = DB::table('pertanyaan')
+            ->select('pertanyaan.id', 'pertanyaan.judul', 'users.nama', DB::raw('GROUP_CONCAT(tag.nama) AS tag'))
+            ->join('users', 'users.id', '=', 'pertanyaan.user_id', 'left')
+            ->join('pertanyaan_tag', 'pertanyaan.id', '=', 'pertanyaan_tag.pertanyaan_id', 'left')
+            ->join('tag', 'tag.id', '=', 'pertanyaan_tag.tag_id', 'left')
+            ->groupBy('pertanyaan.id')
+            ->whereIn('tag.id', $tag_id)
+            ->limit(7)
+            ->get();
         views($pertanyaan)->record();
-        return view('pages.pertanyaan.show', compact('pertanyaan'));
+        return view('pages.pertanyaan.show', compact('pertanyaan', 'like'));
     }
 
     /**

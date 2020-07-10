@@ -1,104 +1,77 @@
-@extends('layouts.app')
-@section('title','Home Forum')
+@extends('layouts.master')
+
 @section('content')
-<div class="container">
-   <div class="jumbotron" id="tc_jumbotron">
-      <div class="card-body" id="xx" style="color: #fff;     border:1px solid #fff;">
-         <div class="text-center">
-            <h1 style="    font-size: 3.5rem;">FORUM</h1>
-            <p>Forum tanya jawab. Membantu, Mencari Solusi Selesaikan Masalah Coding Mu. </p>
-         </div>
-      </div>
-   </div>
-</div>
-<div class="container">
-   <div class="row">
-      <div class="col-md-12" id="tc_container_wrap">
-         <div class="card" id="tc_paneldefault">
-            <div class="card-body" id="tc_panelbody" style="background: #f9f9f9;">
-               <div class="card">
-                  <div class="card-header" style="background-color: #2ab27b;padding: 6px 11px 6px 23px;">
-                     <div class="menu_a" style="float: left;">
-                        <a href="{{ route('tag.index') }}">Tag</a>
-                     </div>
-                     <div class="search" style="margin: 3px;">
-                        <div class="col-md-4 float-right" style="padding-right: 0;">
-                           <div class="input-group">
-                              <input type="text" class="form-control" placeholder="Search for..."
-                                 style=" margin-right: 3px;background: #f5f8fa;">
-                              <span class="input-group-btn">
-                                 <button class="btn btn-warning" type="button" style="color: #fff;">Go!</button>
-                              </span>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="row">
-                  <div class="col-md-12" style="padding-right: 0;"><br>
-                     <table class="table table-bordered">
-                        <thead id="tc_thead">
-                           <tr>
-                              <th scope="col">Thread</th>
-                              <th scope="col">Jawaban</th>
-                              <th scope="col">Views</th>
-                              <th scope="col"></th>
-                           </tr>
-                        </thead>
-                        <tbody style="background: #f9f9f9;">
-
-                           @foreach($pertanyaan as $value)
-                           <tr>
-                              <td>
-                                 <div class="forum_title">
-                                    <h4>
-                                       <a href="{{ route("pertanyaan.show", $value->id) }}">{{ substr($value->judul, 0, 40) }}</a>
-                                    </h4>
-                                    <p>{!! substr(strip_tags($value->isi), 0, 60) !!}</p>
-                                    @foreach($value->tag as $tag_penanda)
-                                       <a href="#" class="badge badge-success tag_label">#{{ $tag_penanda->nama }}</a>
-                                    @endforeach
-                                    @if(!empty($value->image))
-                                       <div class="badge badge-success tag_label_image">
-                                          <i class="fa fa-image"></i>
-                                       </div>
-                                    @endif
-                                 </div>
-                              </td>
-                              <td style="text-align: center">
-                                 {{-- <small> {{ $value->comments->count() }}</small> --}}
-                              </td>
-                              <td style="text-align: center">
-                                 <small> {{ views($value)->count() }}</small>
-                              </td>
-                              <td width="15%">
-                                 <div class="forum_by">
-                                    <small style="margin-bottom: 0; color: #666">{{ $value->created_at->diffForHumans() }}</small>
-                                    <small>by <a href="#">{{ $value->user->nama }}</a></small>
-                                 </div>
-                              </td>
-                           </tr>
-                           @endforeach
-
-                        </tbody>
-                     </table>
-                     <!-- pagination -->
-                     <div class="row justify-content-center">
-                        {!! $pertanyaan->links() !!}
-                     </div>
-                  </div>
-                  <div class="col-md-4"><br>
-                  </div>
-               </div>
-               <hr style="margin-top: 0;">
-               <div class="card">
-                  <div class="card-header"></div>
-                  <div class="card-body" style="background: rgb(90, 90, 90)"></div>
-                  <div class="card-header"></div>
-               </div>
+    <div class="container">
+        <div class="row">
+            <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src=" {{ asset('images/bg2.jpg') }} " class="d-block w-100" alt="...">
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
-</div><br><br>
+        </div>
+    </div>
+
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-md-8 border-bottom">
+                <a href=" {{ route('pertanyaan.create') }} " class="btn btn-warning float-left">New Question </a>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        {!! $pertanyaan->links() !!}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 border-right pr-3">
+                <ul class="list-unstyled text-justify">
+                    @foreach($pertanyaan as $value)
+                    <li class="media pb-3 mb-5 border-bottom">
+                        <img class="mr-3 rounded-circle" src="https://via.placeholder.com/50" alt="Generic placeholder image">
+                        <div class="media-body">
+                            <h5 class="mt-0 mb-1"><a href="{{ route('pertanyaan.show', $value->id) }}">{{ $value->judul }}</a></h5>
+                            <p>{!! substr(strip_tags($value->isi), 0, 60) !!}</p>
+                            @foreach($value->tag as $tag_penanda)
+                                <span class="btn btn-success btn-sm mr-2">{{ $tag_penanda->nama }}</span>
+                            @endforeach
+                            <br>
+                            <small>{{ $value->user->nama }}</small> | <small>{{ $value->created_at }}</small> | <small><i class="fas fa-eye"></i> {{ views($value)->count() }}</small> | <small><i class="fas fa-comments"></i> 15</small>
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white mb-3">
+                    <div class="card-header text-dark">Popular Post</div>
+                    <div class="card-body text-dark text-justify">
+                        <ul>
+                            <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, eligendi.</li>
+                            <li>Lorem ipsum dolor sit amet.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection

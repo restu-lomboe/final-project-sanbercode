@@ -9,7 +9,7 @@ use CyrildeWit\EloquentViewable\Contracts\Viewable;
 class Pertanyaan extends Model implements Viewable
 {
     use InteractsWithViews;
-    
+
     protected $table = "pertanyaan";
     protected $fillable = ['judul', 'isi', 'user_id'];
 
@@ -29,6 +29,6 @@ class Pertanyaan extends Model implements Viewable
     }
 
     public function jawaban() {
-        return $this->hasMany('App\Pertanyaan');
+        return $this->hasMany('App\Jawaban');
     }
 }
