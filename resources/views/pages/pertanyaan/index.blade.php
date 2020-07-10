@@ -40,7 +40,7 @@
                         <thead id="tc_thead">
                            <tr>
                               <th scope="col">Thread</th>
-                              <th scope="col">Comments</th>
+                              <th scope="col">Jawaban</th>
                               <th scope="col">Views</th>
                               <th scope="col"></th>
                            </tr>

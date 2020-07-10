@@ -90,6 +90,7 @@ class PertanyaanController extends Controller
         try {
             $pertanyaan = Pertanyaan::find($id);
             $pertanyaan->update($request->all());
+            $pertanyaan->tag()->sync($request->tags);
             return redirect()->back()->with(['error' => false, 'message' => 'Update pertanyaan success']);
         } catch(\Exception $e) {
             return redirect()->back()->with(['error' => true, 'message' => $e->getMessage()]);

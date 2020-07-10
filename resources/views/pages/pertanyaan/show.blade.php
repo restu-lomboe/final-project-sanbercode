@@ -263,6 +263,16 @@
          margin: 1% auto;
       }
    }
+
+   .vote {
+      color: #2ab27b;;
+      font-size: 5em;
+   }
+
+   .vote:hover {
+      color: #2ab27b;;
+      font-size: 6em;
+   }
 </style>
 
 <div class="container">
@@ -293,13 +303,11 @@
                               |
                               <small>{{ views($pertanyaan)->count() }} Views</small>
                               |
-                              {{-- <small>{{ $forums->comments->count() }} Comments</small> --}}
+                              {{-- <small>{{ $pertanyaan->comments->count() }} Jawaban</small> --}}
                               |
                               @foreach($pertanyaan->tag as $tag)
                                  <div class="badge badge-success">#{{$tag->nama}}</div>
                               @endforeach
-                              <a href="" class="text-center"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
-                              <a href="" class="text-center"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
                               @if (empty($pertanyaan->image))
                               @else
                                  <div class="badge badge-success"><i class="fa fa-image"></i></div>
@@ -420,14 +428,14 @@
                            <div class="add_comment">
                               <div class="open_comment">
                                  <div class="h1">
-                                    <h4>Add a Comment</h4>
+                                    <h4>Jawab</h4>
                                  </div>
                               </div>
 
                               @if(Auth::guest())
 
                               <div class="comment-show p-lg-5 p-md-3">
-                                 <p>Login to Comment</p>
+                                 <p>Login untuk jawab</p>
                               </div>
                               {{-- @else
                               <div class="comment-show">
@@ -451,6 +459,14 @@
                   </div>
                   <div class="col-md-4">
                      <a href="{{route('pertanyaan.create')}}" class="btn btn-success btn-block">Buat Pertanyaan</a><br>
+                     <div class="row">
+                        <div class="col-12">
+                           <a href="" ><i class="fa fa-thumbs-up vote" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="col-12">
+                           <a href="" ><i class="fa fa-thumbs-down vote" aria-hidden="true"></i></a>
+                        </div>
+                     </div>
                   </div>
                </div>
                <hr style="margin-top: 0;">
