@@ -11,14 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Frontend\DashboardController@index')->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::group(['middleware' => 'auth'], function() {
-    Route::resource('tag', 'TagController')->except(['show', 'create']);
-});
+Route::get('/pertanyaan', 'Frontend\PertanyaanController@index')->name('pertanyaan');
+Route::get('/pertanyaan/detail', 'Frontend\PertanyaanController@detail')->name('pertanyaan.detail');
+// Route::get('/home', 'HomeController@index')->name('home');
