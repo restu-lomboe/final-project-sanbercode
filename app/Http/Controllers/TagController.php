@@ -16,7 +16,20 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = $ag::all();
+        $tag = Tag::all();
+        return view('pages.tag.index', compact('tag'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $tag = Tag::find($id);
+        return view('pages.tag.show', compact('tag'));
     }
 
     /**

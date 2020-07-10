@@ -22,6 +22,6 @@ Route::get('pertanyaan', 'PertanyaanController@index')->name('pertanyaan.index')
 Route::get('pertanyaan/index/{id}', 'PertanyaanController@show')->name('pertanyaan.show');
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::resource('tag', 'TagController')->except(['show', 'create']);
+    Route::resource('tag', 'TagController')->except(['create']);
     Route::resource('pertanyaan', 'PertanyaanController')->except(['index', 'show']);
 });
