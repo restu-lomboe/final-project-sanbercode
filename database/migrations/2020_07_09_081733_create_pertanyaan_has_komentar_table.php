@@ -13,7 +13,7 @@ class CreatePertanyaanHasKomentarTable extends Migration
      */
     public function up()
     {
-        Schema::create('pertanyaan_has_komentar', function (Blueprint $table) {
+        Schema::create('pertanyaan_komentar', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('pertanyaan_id');
             $table->unsignedBigInteger('komentar_id');
@@ -28,6 +28,6 @@ class CreatePertanyaanHasKomentarTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pertanyaan_has_komentar');
+        Schema::dropIfExists('pertanyaan_komentar');
     }
 }

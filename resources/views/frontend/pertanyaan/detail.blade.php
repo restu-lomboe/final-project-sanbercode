@@ -6,110 +6,158 @@
 
 @section('content')
 <div class="container mt-5">
+    @if( Session::has('status'))
+        <div class="alert alert-success alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <center><strong>{!! session('status') !!}</strong></center>
+        </div>
+    @endif
+
+
     <div class="row">
         <div class="col-md-8 text-justify border-right pr-3">
             <div class="row">
                 <div class="col-md-1 text-center">
-                    <a href=""><i class="fas fa-sort-up fa-3x"></i></a>
-                    <span>2</span>
-                    <a href=""><i class="fas fa-sort-down fa-3x"></i></a>
+                    @guest
+                        <a href=" {{ route('vote.up', $pertanyaan->id) }} "><i class="fas fa-sort-up fa-3x"></i></a>
+                            @foreach ($pertanyaan->vote as $skor)
+                                {{ $skor->up - $skor->down }}
+                            @endforeach
+                        <a href=" {{ route('vote.down', $pertanyaan->id) }} "><i class="fas fa-sort-down fa-3x"></i></a>
+                    @else
+                        @if ($pertanyaan->user->id == Auth::user()->id)
+                            <i class="fas fa-sort-up fa-3x"></i>
+                                @foreach ($pertanyaan->vote as $skor)
+                                    {{ $skor->up - $skor->down }}
+                                @endforeach
+                            <i class="fas fa-sort-down fa-3x"></i>
+                        @else
+                            <a href=" {{ route('vote.up', $pertanyaan->id) }} "><i class="fas fa-sort-up fa-3x"></i></a>
+                                @foreach ($pertanyaan->vote as $skor)
+                                    {{ $skor->up - $skor->down }}
+                                @endforeach
+                            <a href=" {{ route('vote.down', $pertanyaan->id) }} "><i class="fas fa-sort-down fa-3x"></i></a>
+                        @endif
+                    @endguest
+
+
                 </div>
                 <div class="col-md-11 mb-5">
                     <div class="border-bottom pb-3 mb-5" >
-                        <h1 class="h3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae, explicabo. ??</h1>
-                        <small>Create 12-july-2020</small> . <small>views 22</small>
-                        <p class="mt-3 mb-1">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Possimus, aut quibusdam. Ad quod ducimus voluptatibus saepe repellendus obcaecati. Distinctio, odit atque doloribus, exercitationem dolorem consectetur tempore maiores totam blanditiis eos dicta. Distinctio dicta assumenda tempora, dolore perspiciatis pariatur ducimus nostrum praesentium blanditiis. Molestiae laboriosam, reprehenderit earum corporis rerum, neque voluptate aspernatur optio dicta possimus iure non vel ut, quas inventore expedita ad nam quibusdam animi suscipit soluta? Ipsa qui rem atque laborum blanditiis a quos explicabo, labore quas perspiciatis reprehenderit debitis autem nulla vel ipsam iusto, officia eaque! Velit commodi officia aspernatur reprehenderit voluptates nihil nesciunt aliquam repudiandae explicabo doloremque!</p>
+                        <h1 class="h3"> {{ $pertanyaan->judul }} </h1>
+                        <small class="font-weight-bold" style="text-transform: capitalize;"> {{ $user->nama }} </small> .
+                        <small class="font-weight-bold">Create {{ date('Y F h', strtotime($pertanyaan->created_at)) }} </small>
+                        <p class="mt-3 mb-1"> {!! $pertanyaan->isi !!} </p>
                         <br>
-                        <small class="btn btn-primary btn-sm">php</small> <small class="btn btn-primary btn-sm">laravel</small> <small class="btn btn-primary btn-sm">javascript</small>
+                        @foreach ($pertanyaan->tag as $item)
+                            <small class="btn btn-primary btn-sm"> {{ $item->nama }} </small>
+                        @endforeach
                     </div>
                     {{-- komentar pertanyaan --}}
                     <div class="ml-5">
-                        <p class="m-0 border-top border-bottom pt-2 pb-2" style="font-size: 12px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, est. <a href="">--Restu</a> july 28 at 11:23 </p>
+                        @foreach ($pertanyaan->komentar as $komen)
+                            <p class="m-0 border-top border-bottom pt-2 pb-2" style="font-size: 12px;">
+                            {{ $komen->isi }}
+                            <a href="">-- {{ $komen->user->nama }} ,</a> {{date('Y-F-h', strtotime($pertanyaan->created_at))}} </p>
+                        @endforeach
+
                     </div>
-                    <a href="" data-toggle="modal" data-target="#exampleModal" style="font-size: 12px;">add a comment</a>
+                    <a href="" data-toggle="modal" data-target="#komentarpertanyaan" style="font-size: 12px;">add a comment</a>
                 </div>
 
                 {{-- jawaban --}}
-                <h1 class="h3"> 2 Jawaban </h1>
-                <div class="row mt-5 pr-3">
-                    <div class="col-md-1 text-center">
-                        <a href=""><i class="fas fa-sort-up fa-3x"></i></a>
-                        <span>2</span>
-                        <a href=""><i class="fas fa-sort-down fa-3x"></i></a>
-                    </div>
-                    <div class="col-md-11">
-                        <div class="border-bottom pb-3 mb-5" >
-                            <h1 class="h3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae, explicabo. ??</h1>
-                            <small>Create 12-july-2020</small> . <small>views 22</small>
-                            <p class="mt-3 mb-1">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Possimus, aut quibusdam. Ad quod ducimus voluptatibus saepe repellendus obcaecati. Distinctio, odit atque doloribus, exercitationem dolorem consectetur tempore maiores totam blanditiis eos dicta. Distinctio dicta assumenda tempora, dolore perspiciatis pariatur ducimus nostrum praesentium blanditiis. Molestiae laboriosam, reprehenderit earum corporis rerum, neque voluptate aspernatur optio dicta possimus iure non vel ut, quas inventore expedita ad nam quibusdam animi suscipit soluta? Ipsa qui rem atque laborum blanditiis a quos explicabo, labore quas perspiciatis reprehenderit debitis autem nulla vel ipsam iusto, officia eaque! Velit commodi officia aspernatur reprehenderit voluptates nihil nesciunt aliquam repudiandae explicabo doloremque!</p>
-                            <br>
-                            <small class="btn btn-primary btn-sm">php</small> <small class="btn btn-primary btn-sm">laravel</small> <small class="btn btn-primary btn-sm">javascript</small>
-                        </div>
+                <h1 class="h3"> Jawaban </h1>
 
-                        {{-- komentar jawaban --}}
-                        <div class="ml-5 border-top border-bottom pt-2 pb-2">
-                            <p class="m-0" style="font-size: 12px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, est. <a href="">--Restu</a> july 28 at 11:23 </p>
-                            <div class="media mt-3" style="position: relative; left:65%;">
-                                <img class="mr-2 rounded-circle" src="https://via.placeholder.com/30" alt="Generic placeholder image">
-                                <div class="media-body">
-                                  <small class="mt-0">Restu</small><br>
-                                  <small title="point reputations">100</small> . <small>Dijawab 3 jam yang lalu</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ml-5 border-top border-bottom pt-2 pb-2">
-                            <p class="m-0" style="font-size: 12px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, est. <a href="">--Restu</a> july 28 at 11:23 </p>
-                            <div class="media mt-3" style="position: relative; left:65%;">
-                                <img class="mr-2 rounded-circle" src="https://via.placeholder.com/30" alt="Generic placeholder image">
-                                <div class="media-body">
-                                  <small class="mt-0">Restu</small><br>
-                                  <small title="point reputations">100</small> . <small>Dijawab 3 jam yang lalu</small>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="" style="font-size: 12px;" data-toggle="modal" data-target="#exampleModal">add a comment</a>
-                    </div>
-                </div>
-                <div class="row mt-5 pr-3">
-                    <div class="col-md-1 text-center">
-                        <a href=""><i class="fas fa-sort-up fa-3x"></i></a>
-                        <span>2</span>
-                        <a href=""><i class="fas fa-sort-down fa-3x"></i></a>
-                    </div>
-                    <div class="col-md-11">
-                        <div class="border-bottom pb-3 mb-5" >
-                            <h1 class="h3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae, explicabo. ??</h1>
-                            <small>Create 12-july-2020</small> . <small>views 22</small>
-                            <p class="mt-3 mb-1">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Possimus, aut quibusdam. Ad quod ducimus voluptatibus saepe repellendus obcaecati. Distinctio, odit atque doloribus, exercitationem dolorem consectetur tempore maiores totam blanditiis eos dicta. Distinctio dicta assumenda tempora, dolore perspiciatis pariatur ducimus nostrum praesentium blanditiis. Molestiae laboriosam, reprehenderit earum corporis rerum, neque voluptate aspernatur optio dicta possimus iure non vel ut, quas inventore expedita ad nam quibusdam animi suscipit soluta? Ipsa qui rem atque laborum blanditiis a quos explicabo, labore quas perspiciatis reprehenderit debitis autem nulla vel ipsam iusto, officia eaque! Velit commodi officia aspernatur reprehenderit voluptates nihil nesciunt aliquam repudiandae explicabo doloremque!</p>
-                            <br>
-                            <small class="btn btn-primary btn-sm">php</small> <small class="btn btn-primary btn-sm">laravel</small> <small class="btn btn-primary btn-sm">javascript</small>
-                        </div>
+                @foreach ($pertanyaan->jawaban as $jawab)
+                    <div class="row mt-5 pr-3 col-md-12">
+                        <div class="col-md-1 text-center">
+                            @guest
+                                <a href=" {{ route('jawaban.up', $jawab->id) }} "><i class="fas fa-sort-up fa-3x"></i></a>
+                                    @foreach ($jawab->vote as $jumlahvote)
+                                        {{ $jumlahvote->up - $jumlahvote->down }}
+                                    @endforeach
+                                <a href="{{ route('jawaban.down', $jawab->id) }}"><i class="fas fa-sort-down fa-3x"></i></a>
+                            @else
+                                @if ($pertanyaan->user->id == Auth::user()->id)
+                                    <i class="fas fa-sort-up fa-3x"></i>
+                                    @foreach ($jawab->vote as $jumlahvote)
+                                        {{ $jumlahvote->up - $jumlahvote->down }}
+                                    @endforeach
+                                    <i class="fas fa-sort-down fa-3x"></i>
+                                @else
+                                    <a href=" {{ route('jawaban.up', $jawab->id) }} "><i class="fas fa-sort-up fa-3x"></i></a>
+                                        @foreach ($jawab->vote as $jumlahvote)
+                                            {{ $jumlahvote->up - $jumlahvote->down }}
+                                        @endforeach
+                                    <a href="{{ route('jawaban.down', $jawab->id) }}"><i class="fas fa-sort-down fa-3x"></i></a>
+                                @endif
+                            @endguest
 
-                        {{-- komentar jawaban --}}
-                        <div class="ml-5 border-top border-bottom pt-2 pb-2">
-                            <p class="m-0" style="font-size: 12px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, est. <a href="">--Restu</a> july 28 at 11:23 </p>
-                            <div class="media mt-3" style="position: relative; left:65%;">
-                                <img class="mr-2 rounded-circle" src="https://via.placeholder.com/30" alt="Generic placeholder image">
-                                <div class="media-body">
-                                  <small class="mt-0">Restu</small><br>
-                                  <small title="point reputations">100</small> . <small>Dijawab 3 jam yang lalu</small>
+                        </div>
+                        <div class="col-md-11">
+                            <div class="border-bottom" style="padding-bottom: 12%;">
+                                <p class="mt-3 mb-1"> {!! $jawab->isi !!} </p>
+                                <br>
+                                <div class="media mt-3" style="float: right;">
+                                    <img class="mr-2 rounded-circle" src="{{ asset('/images/profile/'.$jawab->user->foto) }}" alt="Generic placeholder image" width="50">
+                                    <div class="media-body">
+                                    <small class="mt-0"> {{ $jawab->user->nama }} </small><br>
+                                    <small title="point reputations"><i class="fas fa-award"></i>
+                                        @foreach ($jawab->user->voteuser as $point)
+                                            {{ $point->point }}
+                                        @endforeach
+                                    </small> .
+                                    <small> {{ $jawab->created_at->diffForHumans() }} </small>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="ml-5 border-top border-bottom pt-2 pb-2">
-                            <p class="m-0" style="font-size: 12px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, est. <a href="">--Restu</a> july 28 at 11:23 </p>
-                            <div class="media mt-3" style="position: relative; left:65%;">
-                                <img class="mr-2 rounded-circle" src="https://via.placeholder.com/30" alt="Generic placeholder image">
-                                <div class="media-body">
-                                  <small class="mt-0">Restu</small><br>
-                                  <small title="point reputations">100</small> . <small>Dijawab 3 jam yang lalu</small>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="" style="font-size: 12px;" data-toggle="modal" data-target="#exampleModal">add a comment</a>
-                    </div>
-                </div>
 
+                            {{-- komentar jawaban --}}
+                            @foreach ($jawab->komentar as $jawabkomen)
+                            <div class="ml-5 border-bottom pt-2" style="padding-bottom: 12%;">
+                                <p class="m-0" style="font-size: 12px;">
+                                    {{ $jawabkomen->isi }}
+                                <a href="">-- {{ $jawabkomen->user->nama }} </a> {{date('Y-F-h', strtotime($jawab->created_at))}} </p>
+                                <div class="media mt-3" style="float: right;">
+                                    <img class="mr-2 rounded-circle" src="{{ asset('/images/profile/'.$jawabkomen->user->foto) }}" alt="{{ $jawabkomen->user->nama }}" width="50">
+                                    <div class="media-body">
+                                    <small class="mt-0">{{ $jawabkomen->user->nama }}</small><br>
+                                    <small title="point reputations"><i class="fas fa-award"></i>
+                                        @foreach ($jawabkomen->user->voteuser as $point)
+                                            {{ $point->point }}
+                                        @endforeach
+                                    </small> .
+                                    <small>Dijawab {{ $jawabkomen->created_at->diffForHumans() }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                            <a href="" style="font-size: 12px;" data-toggle="modal" data-target="#komentarjawaban-{{$jawab->id}}">add a comment</a>
+                        </div>
+                    </div>
+                @endforeach
+
+
+            </div>
+
+            <div class="mt-5">
+                <h1 class="h3">Jawaban Kamu</h1>
+                <form action=" {{ route('jawaban.store') }} " method="POST" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                    <div class="form-group">
+                        <small>Note* : Berikan jawaban yang menurut kamu paling tepat</small>
+                        <textarea id="my-editor" name="isi" class="form-control" required>{!! old('isi', 'test editor content') !!}</textarea>
+                        <input type="hidden" name="pertanyaan_id" value=" {{ $pertanyaan->id }} ">
+                        @guest
+                        <input type="hidden" name="user_id" value="">
+                        @else
+                        <input type="hidden" name="user_id" value=" {{ Auth::user()->id }} ">
+                        @endguest
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success w-25 float-right">Post Jawaban</button>
+                    </div>
+                </form>
             </div>
 
 
@@ -124,7 +172,7 @@
                         <div class="media-body">
                             <p class="mt-0 mb-0 font-weight-bold">Restu</p>
                             <small>12-July-2020</small><br>
-                            <a href="{{ route('pertanyaan.detail') }}"><small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, molestias!</small></a><br>
+                            <a href=""><small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, molestias!</small></a><br>
                             <div class="">
                                 <small class="btn btn-success btn-sm" style="font-size: 8px;">php</small>
                                 <small class="btn btn-success btn-sm" style="font-size: 8px;">laravel</small>
@@ -138,7 +186,7 @@
                         <div class="media-body">
                             <p class="mt-0 mb-0 font-weight-bold">Restu</p>
                             <small>12-July-2020</small><br>
-                            <a href="{{ route('pertanyaan.detail') }}"><small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, molestias!</small></a><br>
+                            <a href=""><small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, molestias!</small></a><br>
                             <div class="">
                                 <small class="btn btn-success btn-sm" style="font-size: 8px;">php</small>
                                 <small class="btn btn-success btn-sm" style="font-size: 8px;">laravel</small>
@@ -152,7 +200,7 @@
                         <div class="media-body">
                             <p class="mt-0 mb-0 font-weight-bold">Restu</p>
                             <small>12-July-2020</small><br>
-                            <a href="{{ route('pertanyaan.detail') }}"><small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, molestias!</small></a><br>
+                            <a href=""><small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, molestias!</small></a><br>
                             <div class="">
                                 <small class="btn btn-success btn-sm" style="font-size: 8px;">php</small>
                                 <small class="btn btn-success btn-sm" style="font-size: 8px;">laravel</small>
@@ -166,7 +214,7 @@
                         <div class="media-body">
                             <p class="mt-0 mb-0 font-weight-bold">Restu</p>
                             <small>12-July-2020</small><br>
-                            <a href="{{ route('pertanyaan.detail') }}"><small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, molestias!</small></a><br>
+                            <a href=""><small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, molestias!</small></a><br>
                             <div class="">
                                 <small class="btn btn-success btn-sm" style="font-size: 8px;">php</small>
                                 <small class="btn btn-success btn-sm" style="font-size: 8px;">laravel</small>
@@ -180,7 +228,7 @@
                         <div class="media-body">
                             <p class="mt-0 mb-0 font-weight-bold">Restu</p>
                             <small>12-July-2020</small><br>
-                            <a href="{{ route('pertanyaan.detail') }}"><small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, molestias!</small></a><br>
+                            <a href=""><small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, molestias!</small></a><br>
                             <div class="">
                                 <small class="btn btn-success btn-sm" style="font-size: 8px;">php</small>
                                 <small class="btn btn-success btn-sm" style="font-size: 8px;">laravel</small>
@@ -194,7 +242,7 @@
                         <div class="media-body">
                             <p class="mt-0 mb-0 font-weight-bold">Restu</p>
                             <small>12-July-2020</small><br>
-                            <a href="{{ route('pertanyaan.detail') }}"><small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, molestias!</small></a><br>
+                            <a href=""><small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, molestias!</small></a><br>
                             <div class="">
                                 <small class="btn btn-success btn-sm" style="font-size: 8px;">php</small>
                                 <small class="btn btn-success btn-sm" style="font-size: 8px;">laravel</small>
@@ -212,30 +260,88 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Komentar di Pertanyaan-->
+<div class="modal fade" id="komentarpertanyaan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="">
+        <form action=" {{ route('komentar.store') }} " method="POST">
+            {{ csrf_field() }}
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Jawaban kamu</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Komentar di Pertanyaan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" required autofocus>
+                        <textarea name="isi" class="form-control" cols="30" rows="10"></textarea>
                         <small>Note* :masukan jawaban Lebih spesifik dan bayangkan Anda menerima jawaban dari pertanyaan kamu</small>
                     </div>
+                    <input type="hidden" name="pertanyaan_id" value=" {{ $pertanyaan->id }} ">
+                    @guest
+                        <input type="hidden" name="user_id" value="">
+                    @else
+                        <input type="hidden" name="user_id" value=" {{ Auth::user()->id }} ">
+                    @endguest
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
+
+<!-- Modal komentar di jawaban-->
+@foreach ($pertanyaan->jawaban as $jawab)
+<div class="modal fade" id="komentarjawaban-{{$jawab->id}}" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action=" {{ route('komentar.jawaban') }} " method="POST">
+            {{ csrf_field() }}
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Komentar di jawaban</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <textarea name="isi" class="form-control" cols="30" rows="10"></textarea>
+                        <small>Note* :masukan jawaban Lebih spesifik dan bayangkan Anda menerima jawaban dari pertanyaan kamu</small>
+                    </div>
+                    <input type="hidden" name="jawaban_id" value=" {{ $jawab->id }} ">
+                    @guest
+                        <input type="hidden" name="user_id" value="">
+                    @else
+                        <input type="hidden" name="user_id" value=" {{ Auth::user()->id }} ">
+                    @endguest
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@endforeach
+
+@endsection
+
+@section('script')
+<script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+<script>
+  var options = {
+    filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+    filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+    filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+    filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+  };
+</script>
+<script>
+    CKEDITOR.replace('my-editor', options);
+</script>
 @endsection

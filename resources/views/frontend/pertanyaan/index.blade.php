@@ -22,24 +22,32 @@
             </div>
         </div>
 
-        <form class="border mt-3 p-4 rounded form-ask">
+        @if( Session::has('status'))
+            <div class="alert alert-success alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <center><strong>{!! session('status') !!}</strong></center>
+            </div>
+        @endif
+
+        <form class="border mt-3 p-4 rounded form-ask" action=" {{ route('pertanyaan.store') }} " method="POST" enctype="multipart/form-data">
+            {{ csrf_field() }}
             <div class="form-group">
                 <p class="font-weight-bold">Judul</p>
                 <small>Note* : Lebih spesifik dan bayangkan Anda mengajukan pertanyaan kepada orang lain</small>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required autofocus>
+                <input type="text" name="judul" class="form-control" required autofocus>
             </div>
             <div class="form-group">
                 <p class="font-weight-bold">Isi</p>
                 <small>Note* : Sertakan semua informasi yang diperlukan seseorang untuk menjawab pertanyaan Anda</small>
-                <textarea id="my-editor" name="content" class="form-control">{!! old('content', 'test editor content') !!}</textarea>
+                <textarea id="my-editor" name="content" class="form-control" required>{!! old('content', 'test editor content') !!}</textarea>
             </div>
             <div class="form-group">
                 <p class="font-weight-bold">Tag</p>
                 <small>Note* : Tambahkan hingga 5 tag untuk menjelaskan tentang pertanyaan Anda</small>
-                <select name="tag" class="form-control" id="">
-                    <option value="">php</option>
-                    <option value="">laravel</option>
-                    <option value="">javascript</option>
+                <select name="tag[]" class="form-control" id="" multiple required>
+                    @foreach ($tags as $tag)
+                        <option value=" {{ $tag->id }} "> {{ $tag->nama }} </option>
+                    @endforeach
                 </select>
             </div>
             <button type="submit" class="btn btn-success w-100">Submit</button>

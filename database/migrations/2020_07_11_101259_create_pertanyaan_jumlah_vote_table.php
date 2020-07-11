@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJawabanTagTable extends Migration
+class CreatePertanyaanJumlahVoteTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateJawabanTagTable extends Migration
      */
     public function up()
     {
-        Schema::create('jawaban_tag', function (Blueprint $table) {
+        Schema::create('jumlah_vote_pertanyaan', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('jawaban_id');
-            $table->unsignedBigInteger('tag_id');
+            $table->unsignedBigInteger('pertanyaan_id');
+            $table->unsignedBigInteger('jumlah_vote_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateJawabanTagTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jawaban_tag');
+        Schema::dropIfExists('jumlah_vote_pertanyaan');
     }
 }

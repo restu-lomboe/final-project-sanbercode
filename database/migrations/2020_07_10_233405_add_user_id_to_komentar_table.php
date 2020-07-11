@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJawabanHasVoteTable extends Migration
+class AddUserIdToKomentarTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateJawabanHasVoteTable extends Migration
      */
     public function up()
     {
-        Schema::create('jawaban_vote', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('jawaban_id');
-            $table->unsignedBigInteger('vote_id');
-            $table->timestamps();
+        Schema::table('komentar', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateJawabanHasVoteTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jawaban_vote');
+        Schema::table('komentar', function (Blueprint $table) {
+            //
+        });
     }
 }

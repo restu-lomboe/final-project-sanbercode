@@ -13,7 +13,7 @@ class CreatePertanyaanHasVoteTable extends Migration
      */
     public function up()
     {
-        Schema::create('pertanyaan_has_vote', function (Blueprint $table) {
+        Schema::create('pertanyaan_vote', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('pertanyaan_id');
             $table->unsignedBigInteger('vote_id');
@@ -28,6 +28,6 @@ class CreatePertanyaanHasVoteTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pertanyaan_has_vote');
+        Schema::dropIfExists('pertanyaan_vote');
     }
 }
