@@ -1,5 +1,6 @@
 @extends('layouts.master')
 
+<<<<<<< HEAD
 @section('css')
 <style>
     .pagination{
@@ -8,6 +9,8 @@
 </style>
 @endsection
 
+=======
+>>>>>>> 97772fbae9716cd466a33b306cabd2aedd26a2d1
 @section('content')
 <div class="container">
     <div class="row">

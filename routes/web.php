@@ -15,7 +15,7 @@ if(version_compare(PHP_VERSION, '7.2.0', '>=')) {
 |
 */
 
-Route::get('/', 'Frontend\DashboardController@index')->name('home');
+Route::get('/', 'PertanyaanController@index')->name('home');
 
 Auth::routes();
 
@@ -51,3 +51,13 @@ Route::group(['middleware' => ['LoginUser']], function () {
     Route::match(['get', 'post'], '/post-tag', 'Frontend\TagController@post')->name('tag.post');
 });
 
+//Route::get('/pertanyaan', 'Frontend\PertanyaanController@index')->name('pertanyaan');
+//Route::get('/pertanyaan/detail', 'Frontend\PertanyaanController@detail')->name('pertanyaan.detail');
+
+// Route::get('pertanyaan', 'PertanyaanController@index')->name('pertanyaan.index');
+// Route::get('pertanyaan/index/{id}', 'PertanyaanController@show')->name('pertanyaan.show');
+
+// Route::group(['middleware' => 'auth'], function() {
+//     Route::resource('tag', 'TagController')->except(['create']);
+//     Route::resource('pertanyaan', 'PertanyaanController')->except(['index', 'show']);
+// });

@@ -4,8 +4,8 @@
         right: 40px;
     }
 </style>
-<div class="container">
-    <nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light bg-light">
+    <div class="container">
         <a class="navbar-brand" href=" {{ route('home') }} ">LarahubSanbercode</a>
         <div class="form-inline">
             <form class="">
@@ -24,5 +24,5 @@
                 </form>
             @endguest
         </div>
-    </nav>
-</div>
+    </div>
+</nav>
