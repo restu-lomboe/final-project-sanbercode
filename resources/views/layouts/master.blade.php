@@ -23,12 +23,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     @yield('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.js"></script>
-    @if( Session::has('success'))
+    @if( Session::has('status'))
     <script>
         Swal.fire({
             type: 'success',
             title: 'Berhasil!',
-            text: 'Kamu Berhasil Login',
+            text: '{!! session('status') !!}',
             confirmButtonText: 'Oke'
         })
     </script>
@@ -38,7 +38,7 @@
         Swal.fire({
             type: 'error',
             title: 'Gagal',
-            text: 'Silahkan Login Terlebih Dahulu',
+            text: '{!! session('error') !!}',
             confirmButtonText: 'Oke'
         })
     </script>

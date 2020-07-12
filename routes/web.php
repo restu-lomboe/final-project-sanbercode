@@ -19,12 +19,10 @@ Route::get('/', 'Frontend\DashboardController@index')->name('home');
 
 Auth::routes();
 
-//pertanyaan
-Route::get('/pertanyaan/{id}', 'Frontend\PertanyaanController@detail')->name('pertanyaan.detail');
-
-
 Route::group(['middleware' => ['LoginUser']], function () {
 
+    //pertanyaan
+    Route::get('/pertanyaan/{id}', 'Frontend\PertanyaanController@detail')->name('pertanyaan.detail');
     Route::get('/pertanyaan', 'Frontend\PertanyaanController@index')->name('pertanyaan');
     Route::post('/pertanyaan', 'Frontend\PertanyaanController@store')->name('pertanyaan.store');
     //komentar di pertanyaan

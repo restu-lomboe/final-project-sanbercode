@@ -20,22 +20,16 @@
                 <div class="col-md-1 text-center">
                     @guest
                         <a href=" {{ route('vote.up', $pertanyaan->id) }} "><i class="fas fa-sort-up fa-3x"></i></a>
-                            @foreach ($pertanyaan->vote as $skor)
-                                {{ $skor->up - $skor->down }}
-                            @endforeach
+                            {{ $totalvotepertanyaan }}
                         <a href=" {{ route('vote.down', $pertanyaan->id) }} "><i class="fas fa-sort-down fa-3x"></i></a>
                     @else
                         @if ($pertanyaan->user->id == Auth::user()->id)
                             <i class="fas fa-sort-up fa-3x"></i>
-                                @foreach ($pertanyaan->vote as $skor)
-                                    {{ $skor->up - $skor->down }}
-                                @endforeach
+                            {{ $totalvotepertanyaan }}
                             <i class="fas fa-sort-down fa-3x"></i>
                         @else
                             <a href=" {{ route('vote.up', $pertanyaan->id) }} "><i class="fas fa-sort-up fa-3x"></i></a>
-                                @foreach ($pertanyaan->vote as $skor)
-                                    {{ $skor->up - $skor->down }}
-                                @endforeach
+                            {{ $totalvotepertanyaan }}
                             <a href=" {{ route('vote.down', $pertanyaan->id) }} "><i class="fas fa-sort-down fa-3x"></i></a>
                         @endif
                     @endguest
@@ -73,22 +67,16 @@
                         <div class="col-md-1 text-center">
                             @guest
                                 <a href=" {{ route('jawaban.up', $jawab->id) }} "><i class="fas fa-sort-up fa-3x"></i></a>
-                                    @foreach ($jawab->vote as $jumlahvote)
-                                        {{ $jumlahvote->up - $jumlahvote->down }}
-                                    @endforeach
+                                   {{ $totalvotejawaban }}
                                 <a href="{{ route('jawaban.down', $jawab->id) }}"><i class="fas fa-sort-down fa-3x"></i></a>
                             @else
-                                @if ($pertanyaan->user->id == Auth::user()->id)
+                                @if ($jawab->user->id == Auth::user()->id)
                                     <i class="fas fa-sort-up fa-3x"></i>
-                                    @foreach ($jawab->vote as $jumlahvote)
-                                        {{ $jumlahvote->up - $jumlahvote->down }}
-                                    @endforeach
+                                    {{ $totalvotejawaban }}
                                     <i class="fas fa-sort-down fa-3x"></i>
                                 @else
                                     <a href=" {{ route('jawaban.up', $jawab->id) }} "><i class="fas fa-sort-up fa-3x"></i></a>
-                                        @foreach ($jawab->vote as $jumlahvote)
-                                            {{ $jumlahvote->up - $jumlahvote->down }}
-                                        @endforeach
+                                    {{ $totalvotejawaban }}
                                     <a href="{{ route('jawaban.down', $jawab->id) }}"><i class="fas fa-sort-down fa-3x"></i></a>
                                 @endif
                             @endguest

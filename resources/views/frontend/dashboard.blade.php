@@ -58,8 +58,8 @@
                             @endforeach
                             <br>
                             <small>{{ $tanya->user->nama }}</small> .
-                            <small>{{ date('Y F h', strtotime($tanya->created_at)) }}</small> .
-                            <small><i class="fas fa-comments"></i> 15</small>
+                            <small>{{ date('Y F h', strtotime($tanya->created_at)) }}</small>
+                            {{-- <small><i class="fas fa-comments"></i> 15</small> --}}
                         </div>
                     </li>
                 @endforeach
